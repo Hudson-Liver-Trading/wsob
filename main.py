@@ -93,6 +93,7 @@ if __name__ == "__main__":
     paradex_ws_sol = ParadexBBO(market="SOL-USD-PERP", s3_buffer=paradex_buffer_sol)
     hyper_ws_sol = HyperliquidL2(symbol="SOL", s3_buffer=hyper_buffer_sol, snapshot_interval=0.1)
     binance_ws_sol = BinanceDepth10(symbol="SOLUSDT", s3_buffer=binance_buffer_sol)
+    
     paradex_ws.start()
     hyper_ws.start()
     binance_ws.start()
@@ -113,3 +114,11 @@ if __name__ == "__main__":
         paradex_ws.stop()
         hyper_ws.stop()
         binance_ws.stop()
+        
+        paradex_ws_btc.stop()
+        hyper_ws_btc.stop()
+        binance_ws_btc.stop()
+        
+        paradex_ws_sol.stop()
+        hyper_ws_sol.stop()
+        binance_ws_sol.stop()
