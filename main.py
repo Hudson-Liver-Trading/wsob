@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # One S3 buffer per venue (separate prefixes)
     paradex_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/paradex",
+        prefix="orderbooks/paradex/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     hyper_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/hyperliquid",
+        prefix="orderbooks/hyperliquid/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -27,20 +27,83 @@ if __name__ == "__main__":
 
     binance_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/binance",
+        prefix="orderbooks/binance/eth",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+    
+    paradex_buffer_btc = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/paradex/btc",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
 
+    hyper_buffer_btc = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/hyperliquid/btc",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+
+    binance_buffer_btc = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/binance/btc",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+    paradex_buffer_sol = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/paradex/sol",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+
+    hyper_buffer_sol = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/hyperliquid/sol",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+
+    binance_buffer_sol = S3ParquetBuffer(
+        bucket=BUCKET,
+        prefix="orderbooks/binance/sol",
+        buffer_size=500,
+        aws_region=AWS_REGION,
+        flush_interval_sec=5.0,
+    )
+    
+    
+
     paradex_ws = ParadexBBO(market="ETH-USD-PERP", s3_buffer=paradex_buffer)
     hyper_ws = HyperliquidL2(symbol="ETH", s3_buffer=hyper_buffer, snapshot_interval=0.1)
     binance_ws = BinanceDepth10(symbol="ETHUSDT", s3_buffer=binance_buffer)
-
-    # Start all three feeds
+    
+    paradex_ws_btc = ParadexBBO(market="BTC-USD-PERP", s3_buffer=paradex_buffer_btc)
+    hyper_ws_btc = HyperliquidL2(symbol="BTC", s3_buffer=hyper_buffer_btc, snapshot_interval=0.1)
+    binance_ws_btc = BinanceDepth10(symbol="BTCUSDT", s3_buffer=binance_buffer_btc)
+    
+    paradex_ws_sol = ParadexBBO(market="SOL-USD-PERP", s3_buffer=paradex_buffer_sol)
+    hyper_ws_sol = HyperliquidL2(symbol="SOL", s3_buffer=hyper_buffer_sol, snapshot_interval=0.1)
+    binance_ws_sol = BinanceDepth10(symbol="SOLUSDT", s3_buffer=binance_buffer_sol)
     paradex_ws.start()
     hyper_ws.start()
     binance_ws.start()
+    
+    paradex_ws_btc.start()
+    hyper_ws_btc.start()
+    binance_ws_btc.start()
+    
+    paradex_ws_sol.start()
+    hyper_ws_sol.start()
+    binance_ws_sol.start()
 
     try:
         while True:

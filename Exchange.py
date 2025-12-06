@@ -122,7 +122,7 @@ class HyperliquidL2(BaseOrderBookWS):
                     "hl_best_ask_sz": ob.best_ask_sz,
                 }
                 self.s3_buffer.add_row(row)
-                print(f"[Hyperliquid] snapshot {row}")
+                # print(f"[Hyperliquid] snapshot {row}")
             time.sleep(self.snapshot_interval)
 
     def start(self):
