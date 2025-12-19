@@ -115,4 +115,6 @@ while start_date < datetime.now():
                 upload_and_delete_obj(bucket, prefix, output_key)
             except Exception as e:
                 print(f"Error: {e}")
+
+    start_date += timedelta(days=1)
 ################################################################################################################################
