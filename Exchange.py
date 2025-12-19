@@ -184,3 +184,76 @@ class BinanceDepth10(BaseOrderBookWS):
             "bin_best_ask_px": ob.best_ask_px,
             "bin_best_ask_sz": ob.best_ask_sz,
         }
+
+
+class LighterOrderBook(BaseOrderBookWS):
+    def __init__(
+        self,
+        market_index: int,
+        s3_buffer: S3ParquetBuffer,
+        network: str = "mainnet", 
+    ):
+        self.market_index = market_index
+
+        if network == "mainnet":
+            ws_url = "wss://mainnet.zklighter.elliot.ai/stream"
+        elif network == "testnet":
+            ws_url = "wss://testnet.zklighter.elliot.ai/stream"
+        else:
+            raise ValueError(f"Unknown Lighter network: {network}")
+
+        name = f"Lighter-{network}-market-{market_index}"
+        super().__init__(name=name, ws_url=ws_url, s3_buffer=s3_buffer)
+
+
+    def _build_subscribe_message(self) -> dict:
+        return {
+            "type": "subscribe",
+            "channel": f"order_book/{self.market_index}",
+        }
+
+
+    def _parse_order_book(self, raw: dict) -> dict | None:
+        ch = raw.get("channel")
+        msg_type = raw.get("type")
+
+        expected_prefix = f"order_book:{self.market_index}"
+        if ch != expected_prefix or msg_type != "update/order_book":
+            return None
+
+        ob = raw.get("order_book", {})
+        bids = ob.get("bids") or []
+        asks = ob.get("asks") or []
+
+        if not bids or not asks:
+            return None
+
+        best_bid = bids[0]
+        best_ask = asks[0]
+
+        try:
+            best_bid_px = float(best_bid["price"])
+            best_bid_sz = float(best_bid["size"])
+            best_ask_px = float(best_ask["price"])
+            best_ask_sz = float(best_ask["size"])
+        except (KeyError, ValueError, TypeError):
+
+            return None
+
+        ts_raw = ob.get("timestamp")
+        if isinstance(ts_raw, (int, float)) and ts_raw > 0:
+            # Heuristic: if it's huge, treat as ms
+            if ts_raw > 1e12:
+                ts = datetime.fromtimestamp(ts_raw / 1000.0)
+            else:
+                ts = datetime.fromtimestamp(ts_raw)
+        else:
+            ts = datetime.utcnow()
+
+        return {
+            "timestamp": ts,
+            "lighter_best_bid_px": best_bid_px,
+            "lighter_best_bid_sz": best_bid_sz,
+            "lighter_best_ask_px": best_ask_px,
+            "lighter_best_ask_sz": best_ask_sz,
+        }
