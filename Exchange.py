@@ -166,23 +166,10 @@ class BinanceDepth10(BaseOrderBookWS):
         if not bids or not asks:
             return None
 
-        best_bid_px, best_bid_sz = bids[0]
-        best_ask_px, best_ask_sz = asks[0]
-
-        ob = BinOrderBook(
-            datetime.utcnow(),
-            float(best_bid_px),
-            float(best_bid_sz),
-            float(best_ask_px),
-            float(best_ask_sz),
-        )
-
         return {
-            "timestamp": ob.ts,
-            "bin_best_bid_px": ob.best_bid_px,
-            "bin_best_bid_sz": ob.best_bid_sz,
-            "bin_best_ask_px": ob.best_ask_px,
-            "bin_best_ask_sz": ob.best_ask_sz,
+            "timestamp": time.time(),
+            "bin_bids": bids,
+            "bin_asks": asks,
         }
 
 
