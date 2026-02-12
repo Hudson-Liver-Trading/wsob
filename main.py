@@ -11,23 +11,23 @@ if __name__ == "__main__":
     # One S3 buffer per venue (separate prefixes)
     paradex_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/paradex/eth",
+        prefix="ob/paradex/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
 
-    hyper_buffer = S3ParquetBuffer(
-        bucket=BUCKET,
-        prefix="orderbooks/hyperliquid/eth",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # hyper_buffer = S3ParquetBuffer(
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/hyperliquid/eth",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
     binance_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/binance/eth",
+        prefix="ob/binance/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -35,109 +35,109 @@ if __name__ == "__main__":
     
     paradex_buffer_btc = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/paradex/btc",
+        prefix="ob/paradex/btc",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
 
-    hyper_buffer_btc = S3ParquetBuffer(
-        bucket=BUCKET,
-        prefix="orderbooks/hyperliquid/btc",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # hyper_buffer_btc = S3ParquetBuffer(
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/hyperliquid/btc",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
     binance_buffer_btc = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/binance/btc",
+        prefix="ob/binance/btc",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
     paradex_buffer_sol = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/paradex/sol",
+        prefix="ob/paradex/sol",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
 
-    hyper_buffer_sol = S3ParquetBuffer(
-        bucket=BUCKET,
-        prefix="orderbooks/hyperliquid/sol",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # hyper_buffer_sol = S3ParquetBuffer(
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/hyperliquid/sol",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
     binance_buffer_sol = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="orderbooks/binance/sol",
+        prefix="ob/binance/sol",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
 
-    lighter_buffer_eth = S3ParquetBuffer(
-        bucket=BUCKET,
-        prefix="orderbooks/lighter/eth",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # lighter_buffer_eth = S3ParquetBuffer(
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/lighter/eth",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
-    lighter_buffer_btc = S3ParquetBuffer(  
-        bucket=BUCKET,
-        prefix="orderbooks/lighter/btc",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # lighter_buffer_btc = S3ParquetBuffer(  
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/lighter/btc",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
-    lighter_buffer_sol = S3ParquetBuffer(
-        bucket=BUCKET,
-        prefix="orderbooks/lighter/sol",
-        buffer_size=500,
-        aws_region=AWS_REGION,
-        flush_interval_sec=5.0,
-    )
+    # lighter_buffer_sol = S3ParquetBuffer(
+    #     bucket=BUCKET,
+    #     prefix="orderbooks/lighter/sol",
+    #     buffer_size=500,
+    #     aws_region=AWS_REGION,
+    #     flush_interval_sec=5.0,
+    # )
 
     
     
 
     paradex_ws = ParadexBBO(market="ETH-USD-PERP", s3_buffer=paradex_buffer)
-    hyper_ws = HyperliquidL2(symbol="ETH", s3_buffer=hyper_buffer, snapshot_interval=0.1)
+    # hyper_ws = HyperliquidL2(symbol="ETH", s3_buffer=hyper_buffer, snapshot_interval=0.1)
     binance_ws = BinanceDepth10(symbol="ETHUSDT", s3_buffer=binance_buffer)
     
     paradex_ws_btc = ParadexBBO(market="BTC-USD-PERP", s3_buffer=paradex_buffer_btc)
-    hyper_ws_btc = HyperliquidL2(symbol="BTC", s3_buffer=hyper_buffer_btc, snapshot_interval=0.1)
+    # hyper_ws_btc = HyperliquidL2(symbol="BTC", s3_buffer=hyper_buffer_btc, snapshot_interval=0.1)
     binance_ws_btc = BinanceDepth10(symbol="BTCUSDT", s3_buffer=binance_buffer_btc)
     
     paradex_ws_sol = ParadexBBO(market="SOL-USD-PERP", s3_buffer=paradex_buffer_sol)
-    hyper_ws_sol = HyperliquidL2(symbol="SOL", s3_buffer=hyper_buffer_sol, snapshot_interval=0.1)
+    # hyper_ws_sol = HyperliquidL2(symbol="SOL", s3_buffer=hyper_buffer_sol, snapshot_interval=0.1)
     binance_ws_sol = BinanceDepth10(symbol="SOLUSDT", s3_buffer=binance_buffer_sol)
 
-    lighter_ws_eth = LighterOrderBook(market_index=2048, s3_buffer=lighter_buffer_eth)
-    lighter_ws_btc = LighterOrderBook(market_index=1, s3_buffer=lighter_buffer_btc)
-    lighter_ws_sol = LighterOrderBook(market_index=2, s3_buffer=lighter_buffer_sol)
+    # lighter_ws_eth = LighterOrderBook(market_index=2048, s3_buffer=lighter_buffer_eth)
+    # lighter_ws_btc = LighterOrderBook(market_index=1, s3_buffer=lighter_buffer_btc)
+    # lighter_ws_sol = LighterOrderBook(market_index=2, s3_buffer=lighter_buffer_sol)
     
     paradex_ws.start()
-    hyper_ws.start()
+    # hyper_ws.start()
     binance_ws.start()
     
     paradex_ws_btc.start()
-    hyper_ws_btc.start()
+    # hyper_ws_btc.start()
     binance_ws_btc.start()
     
     paradex_ws_sol.start()
-    hyper_ws_sol.start()
+    # hyper_ws_sol.start()
     binance_ws_sol.start()
 
-    lighter_ws_eth.start()
-    lighter_ws_btc.start()
-    lighter_ws_sol.start()
+    # lighter_ws_eth.start()
+    # lighter_ws_btc.start()
+    # lighter_ws_sol.start()
 
     try:
         while True:
@@ -145,17 +145,17 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("Shutting down...")
         paradex_ws.stop()
-        hyper_ws.stop()
+        # hyper_ws.stop()
         binance_ws.stop()
         
         paradex_ws_btc.stop()
-        hyper_ws_btc.stop()
+        # hyper_ws_btc.stop()
         binance_ws_btc.stop()
         
         paradex_ws_sol.stop()
-        hyper_ws_sol.stop()
+        # hyper_ws_sol.stop()
         binance_ws_sol.stop()
 
-        lighter_ws_eth.stop()
-        lighter_ws_btc.stop()
-        lighter_ws_sol.stop()
+        # lighter_ws_eth.stop()
+        # lighter_ws_btc.stop()
+        # lighter_ws_sol.stop()
