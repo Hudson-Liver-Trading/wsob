@@ -167,7 +167,7 @@ class BinanceDepth10(BaseOrderBookWS):
             return None
 
         return {
-            "timestamp": time.time(),
+            "timestamp": datetime.utcnow(),
             "bin_bids": bids,
             "bin_asks": asks,
         }
