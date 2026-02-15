@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # One S3 buffer per venue (separate prefixes)
     paradex_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/paradex/eth",
+        prefix="ob2/paradex/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     binance_buffer = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/binance/eth",
+        prefix="ob2/binance/eth",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     
     paradex_buffer_btc = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/paradex/btc",
+        prefix="ob2/paradex/btc",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -51,14 +51,14 @@ if __name__ == "__main__":
 
     binance_buffer_btc = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/binance/btc",
+        prefix="ob2/binance/btc",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
     )
     paradex_buffer_sol = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/paradex/sol",
+        prefix="ob2/paradex/sol",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     binance_buffer_sol = S3ParquetBuffer(
         bucket=BUCKET,
-        prefix="ob/binance/sol",
+        prefix="ob2/binance/sol",
         buffer_size=500,
         aws_region=AWS_REGION,
         flush_interval_sec=5.0,
