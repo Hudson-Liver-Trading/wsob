@@ -122,7 +122,7 @@ def process_exchange_coin(exchange: str, coin: str):
             continue
 
         # Output path - Keeping 'hourly_orderbooks' separate from 'ob2'
-        output_key = f"hourly_orderbooks/{exchange}/{coin}/orderbook_{date}_{hour}.parquet"
+        output_key = f"hourly_orderbooks2/{exchange}/{coin}/orderbook_{date}_{hour}.parquet"
 
         # Check if hourly file already exists (for appending)
         if object_exists(output_key):
