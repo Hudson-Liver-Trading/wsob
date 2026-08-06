@@ -26,9 +26,12 @@ import boto3
 import pandas as pd
 
 BUCKET_NAME = "2092-2968-9871.13012225"
-# Sequential GETs measured 3.5 files/s -> the 160-day backlog would take
+# Sequential GETs measured 3.5 files/s -> the backlog would take >1 month.
+# 32 workers pinned the 1-vCPU t2.micro at 100% and STARVED THE SCRAPER off
+# the CPU for 13 minutes (live incident 2026-08-06 17:10-17:23, data lost).
+# 6 workers + the Nice/CPUWeight drop-ins in deploy/systemd keep capture safe.
 # >1 month of runtime. Parallel downloads are what make it tractable.
-DOWNLOAD_WORKERS = 32
+DOWNLOAD_WORKERS = 6
 EXCHANGES = ["binance", "paradex"]
 COINS = ["btc", "eth", "sol"]
 FNAME_RE = re.compile(r"orderbook_(\d{8})_(\d{2})\d{4}_\d+\.parquet")
