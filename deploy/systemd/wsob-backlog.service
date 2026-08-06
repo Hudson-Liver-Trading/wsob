@@ -1,0 +1,11 @@
+[Unit]
+Description=wsob one-shot ob2 backlog merge (Feb 2026 -> yesterday)
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/wsob
+ExecStart=/home/ubuntu/wsob/backlog.sh
+TimeoutStartSec=infinity
+StandardOutput=append:/home/ubuntu/wsob/backlog.log
+StandardError=append:/home/ubuntu/wsob/backlog.log

@@ -1,0 +1,10 @@
+[Unit]
+Description=run wsob merge hourly at :10 (never touches the in-progress hour)
+
+[Timer]
+OnCalendar=*:10
+Persistent=true
+Unit=wsob-merge.service
+
+[Install]
+WantedBy=timers.target

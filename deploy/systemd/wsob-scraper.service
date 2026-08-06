@@ -1,0 +1,17 @@
+[Unit]
+Description=wsob orderbook scraper (binance/paradex -> S3 ob2)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/wsob
+ExecStart=/home/ubuntu/wsob/.venv/bin/python main.py
+Restart=always
+RestartSec=15
+StandardOutput=append:/home/ubuntu/wsob/scraper.log
+StandardError=append:/home/ubuntu/wsob/scraper.log
+
+[Install]
+WantedBy=multi-user.target

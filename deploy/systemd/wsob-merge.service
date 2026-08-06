@@ -1,0 +1,10 @@
+[Unit]
+Description=wsob hourly orderbook merge (ob2 -> hourly_orderbooks2)
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/wsob
+ExecStart=/home/ubuntu/wsob/.venv/bin/python aws_data_merge.py
+StandardOutput=append:/home/ubuntu/wsob/merge.log
+StandardError=append:/home/ubuntu/wsob/merge.log
