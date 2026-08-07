@@ -8,7 +8,7 @@ a 5-month backlog of ~500k tiny ob2 objects.
     sudo cp deploy/systemd/* /etc/systemd/system/ && sudo systemctl daemon-reload
     sudo systemctl enable --now wsob-scraper.service   # scraper, Restart=always
     sudo systemctl enable --now wsob-merge.timer       # hourly at :10
-    sudo systemctl start wsob-backlog.service          # one-shot catch-up
+    # backlog needs no separate unit: merge_cycle.sh chips at it hourly
 
 `aws_data_merge.py` fixes, all found live:
   * never merges/deletes the IN-PROGRESS hour (was a real data-loss race)
@@ -36,3 +36,16 @@ Guards now in place:
 
 Verify after any change to the merge: watch that ob2 objects keep appearing
 every ~5s while the merge runs.
+
+## Why there is no long-running backlog job
+
+The first design ran the whole 160-day catch-up as one `wsob-backlog.service`
+one-shot. It died twice in a day — once to a reboot, once to a SIGTERM — and
+each death needed a human to notice and resume it.
+
+`merge_cycle.sh` (what the hourly timer now runs) replaces it: each run merges
+the recent window, then time-boxes ONE backlog day, advancing a cursor in
+`.backlog_day` only on success. Nothing long-lived exists to die; an
+interrupted day is simply retried next hour. Merged hours have their ob2
+sources deleted, so repeats are cheap and idempotent. Catch-up takes ~a week
+of hourly runs instead of ~2 days of babysitting, and needs no attention.
